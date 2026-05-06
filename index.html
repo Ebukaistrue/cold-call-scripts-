@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Cold Call Scripts — Ebuka.E</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root { --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif; }
+  body { background: #0D0D0D; font-family: var(--sf); min-height: 100vh; padding: 24px 16px 60px; color: #fff; }
+  .header { margin-bottom: 26px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .header-label { color: #C9A84C; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .header p { color: rgba(255,255,255,0.35); font-size: 12px; margin-top: 5px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; background: transparent; }
+  .legend-item span { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { background: #131313; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; cursor: pointer; user-select: none; }
+  .card.open { grid-column: 1 / -1; background: #161616; padding: 18px 16px; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .card-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; color: #000; margin-bottom: 8px; }
+  .card-title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
+  .card.open .card-title { font-size: 15px; }
+  .card-tag { font-size: 10px; color: rgba(255,255,255,0.35); }
+  .card-toggle { font-size: 20px; color: rgba(255,255,255,0.2); line-height: 1; margin-top: 2px; transition: transform 0.2s ease, color 0.2s ease; display: inline-block; }
+  .card.open .card-toggle { transform: rotate(45deg); }
+  .lines { display: none; flex-direction: column; gap: 8px; margin-top: 18px; }
+  .card.open .lines { display: flex; }
+  .line { border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; border: 1px solid transparent; }
+  .line.say   { background: rgba(255,255,255,0.06); }
+  .line.ask   { background: rgba(201,168,76,0.12);  border-color: #C9A84C; }
+  .line.pause { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.15); }
+  .line.close { background: rgba(124,252,100,0.08); border-color: #7CFC64; }
+  .line-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; min-width: 38px; padding-top: 2px; flex-shrink: 0; }
+  .line.ask   .line-label { color: #C9A84C; }
+  .line.pause .line-label { color: rgba(255,255,255,0.3); }
+  .line.close .line-label { color: #7CFC64; }
+  .line-text { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.85); }
+  .line.pause .line-text { color: rgba(255,255,255,0.3); font-style: italic; }
+  .line.close .line-text { color: #7CFC64; }
+  .collapse-btn { margin-top: 6px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); font-size: 11px; font-family: var(--sf); padding: 8px; border-radius: 8px; cursor: pointer; letter-spacing: 1px; width: 100%; }
+</style>
+</head>
+<body>
+<div class="header">
+  <p class="header-label">Ebuka.E</p>
+  <h1>Cold Call Scripts</h1>
+  <p>Tap any option to expand</p>
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.4)"></div><span style="color:rgba(255,255,255,0.4)">SAY</span></div>
+  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #C9A84C"></div><span style="color:#C9A84C">ASK</span></div>
+  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.25)"></div><span style="color:rgba(255,255,255,0.25)">PAUSE</span></div>
+  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #7CFC64"></div><span style="color:#7CFC64">CLOSE</span></div>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+const scripts=[{id:"A",title:"The Curiosity Hook",tag:"Short & Sharp",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon]. Please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"Okay great. I'm a web developer based in Lagos — I've actually already built a website for your business. I just want to show it to you."},{type:"say",text:"If you like it, it's yours. If you don't, no problem, no charge, we never speak again."},{type:"close",text:"Can I send you the link right now?"}]},{id:"B",title:"The Direct Value Pitch",tag:"Warm & Confident",color:"#7B9E87",lines:[{type:"say",text:"Hi, I'm calling for [Business Name]. My name is Ebuka, I'm a web developer."},{type:"say",text:"I build websites for shortlet businesses in Lagos — I've done one recently and I want to show you what it looks like with your name on it."},{type:"say",text:"It takes 30 seconds to view."},{type:"close",text:"Can I send it to you on WhatsApp?"}]},{id:"C",title:"The Instagram Story",tag:"Personal Discovery",color:"#E07A5F",lines:[{type:"say",text:"Hi, is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"So I was actually looking for a shortlet in Lagos last week, came across your Instagram — really nice apartments by the way."},{type:"say",text:"But I kept looking for your website to check availability and pricing, couldn't find one."},{type:"say",text:"I'm a web developer, so I just went ahead and built one for you. Takes 30 seconds to look at."},{type:"close",text:"Can I send you the link on WhatsApp?"}]},{id:"D",title:"The Google Search",tag:"Problem Spotter",color:"#6B7FD7",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"I searched for shortlets in [Lekki/Ikeja/VI] on Google last week — your name came up but there was no website, just a Google listing."},{type:"say",text:"A lot of people searching for shortlets online are clicking past businesses with no site."},{type:"say",text:"I'm a web developer, I've already put something together for you. If you like it, we talk. If not, no stress at all."},{type:"close",text:"Can I send it to you now?"}]},{id:"E",title:"Instagram Discovery",tag:"Consultative",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]? My name is Ebuka, I'm a web developer based in Lagos."},{type:"say",text:"I came across your Instagram page — honestly your apartments look really premium. Really clean work."},{type:"say",text:"But I was trying to find more info — pricing, availability, how to book — and I couldn't find a website."},{type:"ask",text:"When people reach out to you, how are they usually finding you right now?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And when someone wants to check availability or pricing, what happens — do they DM you, call you directly?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"Imagine if instead of handling every inquiry manually, you had a website that showed all your apartments, pricing, availability — and people could send a booking request directly. How much time do you think that would save you in a week?"},{type:"pause",text:"Let them answer"},{type:"say",text:"Exactly. And here's the thing — I've actually already built something for you. Full website, designed to look as premium as your apartments. No commitment, no pressure."},{type:"close",text:"Can I send you the link on WhatsApp right now so you can see it?"}]},{id:"F",title:"The Google Search",tag:"Pain-First",color:"#9B6B9B",lines:[{type:"say",text:"Hi, is this [Business Name]? My name is Ebuka, I'm a web developer."},{type:"say",text:"I was searching for shortlets in [Lekki/Ikeja/VI] on Google last week — your listing came up but there was no website. Just a number and a location."},{type:"ask",text:"When you think about your bookings right now — would you say most are repeat customers or new people finding you for the first time?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And for the new ones — how are they usually discovering you? Instagram? Referrals?"},{type:"pause",text:"Let them answer"},{type:"say",text:"The shortlet businesses doing really well in Lagos aren't just on Instagram. They have a website working for them 24 hours a day — someone lands on it at 2am, sees the apartments, sends a booking request before they speak to anyone."},{type:"ask",text:"Do you feel like you're currently capturing all the people searching online who would genuinely book if they could find you easily?"},{type:"pause",text:"Let them answer"},{type:"say",text:"That's exactly why I'm calling. I've already built a website for [Business Name] — fully designed, looks luxury, works on mobile."},{type:"close",text:"What's the best number to send the WhatsApp link to right now?"}]}];
+let openId=null;
+function render(){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+  scripts.forEach(s=>{
+    const isOpen=openId===s.id;
+    const card=document.createElement("div");
+    card.className="card"+(isOpen?" open":"");
+    card.style.borderColor=isOpen?s.color:"rgba(255,255,255,0.07)";
+    const linesHTML=s.lines.map(l=>{
+      const lbl=l.type!=="say"?`<span class="line-label">${l.type.toUpperCase()}</span>`:"";
+      return`<div class="line ${l.type}">${lbl}<p class="line-text">${l.text}</p></div>`;
+    }).join("");
+    card.innerHTML=`
+      <div class="card-top">
+        <div>
+          <span class="card-badge" style="background:${s.color}">OPTION ${s.id}</span>
+          <p class="card-title">${s.title}</p>
+          <p class="card-tag">${s.tag}</p>
+        </div>
+        <span class="card-toggle" style="color:${isOpen?s.color:"rgba(255,255,255,0.2)"}">+</span>
+      </div>
+      <div class="lines">${linesHTML}<button class="collapse-btn">COLLAPSE ↑</button></div>`;
+    card.addEventListener("click",e=>{
+      openId=e.target.classList.contains("collapse-btn")?null:(isOpen?null:s.id);
+      render();
+    });
+    grid.appendChild(card);
+  });
+}
+render();
+</script>
+</body>
+</html>
