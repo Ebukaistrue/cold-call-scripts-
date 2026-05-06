@@ -2,101 +2,352 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>Cold Call Scripts — Ebuka.E</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root { --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif; }
-  body { background: #0D0D0D; font-family: var(--sf); min-height: 100vh; padding: 24px 16px 60px; color: #fff; }
-  .header { margin-bottom: 26px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .header-label { color: #C9A84C; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-  .header p { color: rgba(255,255,255,0.35); font-size: 12px; margin-top: 5px; }
-  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
-  .legend-item { display: flex; align-items: center; gap: 6px; }
-  .legend-dot { width: 8px; height: 8px; border-radius: 2px; background: transparent; }
-  .legend-item span { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .card { background: #131313; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; cursor: pointer; user-select: none; }
-  .card.open { grid-column: 1 / -1; background: #161616; padding: 18px 16px; }
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .card-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; color: #000; margin-bottom: 8px; }
-  .card-title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
-  .card.open .card-title { font-size: 15px; }
-  .card-tag { font-size: 10px; color: rgba(255,255,255,0.35); }
-  .card-toggle { font-size: 20px; color: rgba(255,255,255,0.2); line-height: 1; margin-top: 2px; transition: transform 0.2s ease, color 0.2s ease; display: inline-block; }
-  .card.open .card-toggle { transform: rotate(45deg); }
-  .lines { display: none; flex-direction: column; gap: 8px; margin-top: 18px; }
-  .card.open .lines { display: flex; }
-  .line { border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; border: 1px solid transparent; }
-  .line.say   { background: rgba(255,255,255,0.06); }
-  .line.ask   { background: rgba(201,168,76,0.12);  border-color: #C9A84C; }
-  .line.pause { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.15); }
-  .line.close { background: rgba(124,252,100,0.08); border-color: #7CFC64; }
-  .line-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; min-width: 38px; padding-top: 2px; flex-shrink: 0; }
-  .line.ask   .line-label { color: #C9A84C; }
-  .line.pause .line-label { color: rgba(255,255,255,0.3); }
-  .line.close .line-label { color: #7CFC64; }
-  .line-text { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.85); }
-  .line.pause .line-text { color: rgba(255,255,255,0.3); font-style: italic; }
-  .line.close .line-text { color: #7CFC64; }
-  .collapse-btn { margin-top: 6px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); font-size: 11px; font-family: var(--sf); padding: 8px; border-radius: 8px; cursor: pointer; letter-spacing: 1px; width: 100%; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",sans-serif;--gold:#C9A84C;--green:#7CFC64;--red:#FF6B6B;--blue:#6B7FD7;--purple:#9B6B9B}
+body{background:#0D0D0D;font-family:var(--sf);min-height:100vh;padding:20px 16px 60px;color:#fff}
+.header{margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.label{color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px}
+h1{font-size:21px;font-weight:700;letter-spacing:-0.5px}
+.sub{color:rgba(255,255,255,0.35);font-size:11px;margin-top:4px}
+
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.5px;cursor:pointer;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);background:transparent;font-family:var(–sf);transition:all 0.2s}
+.tab.active{background:var(–gold);color:#000;border-color:var(–gold)}
+
+/* SECTIONS */
+.section{display:none}
+.section.active{display:block}
+
+/* LEGEND */
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:7px;height:7px;border-radius:2px;background:transparent}
+.legend-item span{font-size:9px;font-weight:600;letter-spacing:1.5px}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* CARD */
+.card{background:#131313;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;cursor:pointer;user-select:none}
+.card.open{grid-column:1/-1;background:#161616;padding:16px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:4px;color:#000;margin-bottom:7px}
+.card-title{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:2px}
+.card.open .card-title{font-size:14px}
+.card-tag{font-size:10px;color:rgba(255,255,255,0.35)}
+.toggle{font-size:20px;color:rgba(255,255,255,0.2);line-height:1;margin-top:2px;display:inline-block;transition:transform 0.2s,color 0.2s}
+.card.open .toggle{transform:rotate(45deg)}
+.lines{display:none;flex-direction:column;gap:7px;margin-top:15px}
+.card.open .lines{display:flex}
+.line{border-radius:8px;padding:9px 11px;display:flex;gap:9px;align-items:flex-start;border:1px solid transparent}
+.line.say{background:rgba(255,255,255,0.06)}
+.line.ask{background:rgba(201,168,76,0.12);border-color:#C9A84C}
+.line.pause{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.15)}
+.line.close{background:rgba(124,252,100,0.08);border-color:#7CFC64}
+.line.warn{background:rgba(255,107,107,0.08);border-color:#FF6B6B}
+.line-label{font-size:9px;font-weight:700;letter-spacing:1.5px;min-width:36px;padding-top:2px;flex-shrink:0}
+.line.ask .line-label{color:#C9A84C}
+.line.pause .line-label{color:rgba(255,255,255,0.3)}
+.line.close .line-label{color:#7CFC64}
+.line.warn .line-label{color:#FF6B6B}
+.line-text{font-size:13px;line-height:1.6;color:rgba(255,255,255,0.85)}
+.line.pause .line-text{color:rgba(255,255,255,0.3);font-style:italic}
+.line.close .line-text{color:#7CFC64}
+.line.warn .line-text{color:#FF6B6B}
+.collapse-btn{margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:11px;font-family:var(–sf);padding:8px;border-radius:8px;cursor:pointer;letter-spacing:1px;width:100%}
+
+/* FLOW SECTION */
+.flow-card{background:#131313;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:16px;margin-bottom:10px}
+.flow-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–gold);margin-bottom:12px}
+.flow-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.flow-num{width:22px;height:22px;border-radius:50%;background:var(–gold);color:#000;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.flow-num.gate{background:var(–blue)}
+.flow-num.obj{background:var(–red)}
+.flow-num.follow{background:var(–green);color:#000}
+.flow-text{font-size:13px;line-height:1.6;color:rgba(255,255,255,0.8)}
+.flow-quote{background:rgba(255,255,255,0.05);border-left:2px solid var(–gold);border-radius:0 8px 8px 0;padding:10px 12px;margin-top:6px;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.85);font-style:italic}
+.flow-quote.blue{border-left-color:var(–blue)}
+.flow-quote.red{border-left-color:var(–red)}
+.flow-quote.green{border-left-color:var(–green)}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:14px 0}
+.if-label{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.3);margin-bottom:6px;text-transform:uppercase}
 </style>
+
 </head>
 <body>
+
 <div class="header">
-  <p class="header-label">Ebuka.E</p>
+  <p class="label">Ebuka.E</p>
   <h1>Cold Call Scripts</h1>
-  <p>Tap any option to expand</p>
+  <p class="sub">Tap any card to expand</p>
 </div>
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.4)"></div><span style="color:rgba(255,255,255,0.4)">SAY</span></div>
-  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #C9A84C"></div><span style="color:#C9A84C">ASK</span></div>
-  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.25)"></div><span style="color:rgba(255,255,255,0.25)">PAUSE</span></div>
-  <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #7CFC64"></div><span style="color:#7CFC64">CLOSE</span></div>
+
+<!-- TABS -->
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('openers')">Openers</button>
+  <button class="tab" onclick="switchTab('flow')">Full Flow</button>
+  <button class="tab" onclick="switchTab('gatekeeper')">Gatekeeper</button>
+  <button class="tab" onclick="switchTab('objections')">Objections</button>
+  <button class="tab" onclick="switchTab('followup')">Follow Up</button>
 </div>
-<div class="grid" id="grid"></div>
+
+<!-- OPENERS -->
+
+<div class="section active" id="openers">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.4)"></div><span style="color:rgba(255,255,255,0.4)">SAY</span></div>
+    <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #C9A84C"></div><span style="color:#C9A84C">ASK</span></div>
+    <div class="legend-item"><div class="legend-dot" style="border:1.5px solid rgba(255,255,255,0.25)"></div><span style="color:rgba(255,255,255,0.25)">PAUSE</span></div>
+    <div class="legend-item"><div class="legend-dot" style="border:1.5px solid #7CFC64"></div><span style="color:#7CFC64">CLOSE</span></div>
+  </div>
+  <div class="grid" id="openers-grid"></div>
+</div>
+
+<!-- FULL FLOW -->
+
+<div class="section" id="flow">
+  <div class="flow-card">
+    <div class="flow-title">The Full Call Flow</div>
+
+```
+<div class="flow-step">
+  <div class="flow-num">1</div>
+  <div>
+    <div class="flow-text"><strong>Open</strong> — Use any opener (A–D)</div>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="flow-num">2</div>
+  <div>
+    <div class="flow-text"><strong>Qualify immediately</strong></div>
+    <div class="flow-quote">"Please, are you the owner of the business?"</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="if-label">If Owner →</div>
+
+<div class="flow-step">
+  <div class="flow-num">3</div>
+  <div>
+    <div class="flow-text"><strong>Go full pitch</strong> — Use Option E or F</div>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="flow-num">4</div>
+  <div>
+    <div class="flow-text"><strong>If they say "we have a website"</strong> — go to Objections tab</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="if-label">If Gatekeeper →</div>
+
+<div class="flow-step">
+  <div class="flow-num gate">3</div>
+  <div>
+    <div class="flow-text"><strong>Don't pitch yet</strong> — go to Gatekeeper tab</div>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="flow-num gate">4</div>
+  <div>
+    <div class="flow-text"><strong>Build overnight</strong> — swap 1219 Homes to their branding</div>
+  </div>
+</div>
+
+<div class="flow-step">
+  <div class="flow-num gate">5</div>
+  <div>
+    <div class="flow-text"><strong>Send link next morning</strong> — go to Follow Up tab</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- GATEKEEPER -->
+
+<div class="section" id="gatekeeper">
+  <div class="flow-card">
+    <div class="flow-title">When They Say "You Can Speak To Me"</div>
+
+```
+<div class="flow-step">
+  <div class="flow-num gate">1</div>
+  <div>
+    <div class="flow-text">Don't pitch. Give just enough to intrigue:</div>
+    <div class="flow-quote blue">"Of course. So basically I already built a website for [Business Name] — it's ready, I just need the right person to see it. Whoever makes the decision — if they like it, it's available. If not, no problem. Can you let your boss know? I'll have it ready to send by tomorrow morning."</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="flow-step">
+  <div class="flow-num gate">2</div>
+  <div>
+    <div class="flow-text">Then immediately go for the number:</div>
+    <div class="flow-quote blue">"Please what's the best number to reach him directly so I can send it myself?"</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="if-label">If they give the number →</div>
+
+<div class="flow-step">
+  <div class="flow-num gate">3</div>
+  <div>
+    <div class="flow-quote blue">"Perfect. I'll send it to him directly tomorrow morning. What's his name please?"</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="if-label">If they won't give the number →</div>
+
+<div class="flow-step">
+  <div class="flow-num gate">3</div>
+  <div>
+    <div class="flow-quote blue">"No problem. Please just let him know — tomorrow morning I'll call back and ask for him directly. What time is he usually in?"</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- OBJECTIONS -->
+
+<div class="section" id="objections">
+  <div class="flow-card">
+    <div class="flow-title">"We Already Have a Website"</div>
+    <div class="flow-step">
+      <div class="flow-num obj">1</div>
+      <div>
+        <div class="flow-quote red">"That's fair — can I ask, is it bringing you consistent bookings? Because most shortlet websites in Lagos are just sitting there doing nothing. I'm not here to replace it, I just want to show you what one that actually converts looks like. If you like it, it's yours. If not, we don't have to speak again."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-card">
+    <div class="flow-title">"My Boss is a Developer / Stopped Building"</div>
+    <div class="flow-step">
+      <div class="flow-num obj">1</div>
+      <div>
+        <div class="flow-quote red">"Are you trying to say you guys don't want extra bookings from a website?"</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num obj">2</div>
+      <div>
+        <div class="flow-text">If they soften — close immediately:</div>
+        <div class="flow-quote red">"I've already built it. I just want to show it — if he likes it, it's available for ₦150k. If not, we don't have to speak again. Can I send the link?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-card">
+    <div class="flow-title">"He's Working on It / Waiting"</div>
+    <div class="flow-step">
+      <div class="flow-num obj">1</div>
+      <div>
+        <div class="flow-quote red">"No problem at all. I've already built one — let him use mine and whoever he's working with to compare, then pick whoever he prefers. Nothing to lose."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOLLOW UP -->
+
+<div class="section" id="followup">
+  <div class="flow-card">
+    <div class="flow-title">Next Day — Got Owner's Number</div>
+    <div class="flow-step">
+      <div class="flow-num follow">1</div>
+      <div>
+        <div class="flow-quote green">"Hi [Name], I spoke with your team yesterday about a website I built for [Business Name]. I said I'd have it ready this morning — just sending it over now. Take a look and let me know what you think."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-card">
+    <div class="flow-title">Next Day — Calling Back Through Gatekeeper</div>
+    <div class="flow-step">
+      <div class="flow-num follow">1</div>
+      <div>
+        <div class="flow-quote green">"Hi, please I called yesterday — I was told to call back this morning to speak with [boss name] directly."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-card">
+    <div class="flow-title">Warm Lead — No Response Yet (Anson Homes etc.)</div>
+    <div class="flow-step">
+      <div class="flow-num follow">1</div>
+      <div>
+        <div class="flow-quote green">"Hi [Name], just checking in. The website is ready whenever you are — happy to send it over now so you have it to look at."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-const scripts=[{id:"A",title:"The Curiosity Hook",tag:"Short & Sharp",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon]. Please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"Okay great. I'm a web developer based in Lagos — I've actually already built a website for your business. I just want to show it to you."},{type:"say",text:"If you like it, it's yours. If you don't, no problem, no charge, we never speak again."},{type:"close",text:"Can I send you the link right now?"}]},{id:"B",title:"The Direct Value Pitch",tag:"Warm & Confident",color:"#7B9E87",lines:[{type:"say",text:"Hi, I'm calling for [Business Name]. My name is Ebuka, I'm a web developer."},{type:"say",text:"I build websites for shortlet businesses in Lagos — I've done one recently and I want to show you what it looks like with your name on it."},{type:"say",text:"It takes 30 seconds to view."},{type:"close",text:"Can I send it to you on WhatsApp?"}]},{id:"C",title:"The Instagram Story",tag:"Personal Discovery",color:"#E07A5F",lines:[{type:"say",text:"Hi, is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"So I was actually looking for a shortlet in Lagos last week, came across your Instagram — really nice apartments by the way."},{type:"say",text:"But I kept looking for your website to check availability and pricing, couldn't find one."},{type:"say",text:"I'm a web developer, so I just went ahead and built one for you. Takes 30 seconds to look at."},{type:"close",text:"Can I send you the link on WhatsApp?"}]},{id:"D",title:"The Google Search",tag:"Problem Spotter",color:"#6B7FD7",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"I searched for shortlets in [Lekki/Ikeja/VI] on Google last week — your name came up but there was no website, just a Google listing."},{type:"say",text:"A lot of people searching for shortlets online are clicking past businesses with no site."},{type:"say",text:"I'm a web developer, I've already put something together for you. If you like it, we talk. If not, no stress at all."},{type:"close",text:"Can I send it to you now?"}]},{id:"E",title:"Instagram Discovery",tag:"Consultative",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]? My name is Ebuka, I'm a web developer based in Lagos."},{type:"say",text:"I came across your Instagram page — honestly your apartments look really premium. Really clean work."},{type:"say",text:"But I was trying to find more info — pricing, availability, how to book — and I couldn't find a website."},{type:"ask",text:"When people reach out to you, how are they usually finding you right now?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And when someone wants to check availability or pricing, what happens — do they DM you, call you directly?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"Imagine if instead of handling every inquiry manually, you had a website that showed all your apartments, pricing, availability — and people could send a booking request directly. How much time do you think that would save you in a week?"},{type:"pause",text:"Let them answer"},{type:"say",text:"Exactly. And here's the thing — I've actually already built something for you. Full website, designed to look as premium as your apartments. No commitment, no pressure."},{type:"close",text:"Can I send you the link on WhatsApp right now so you can see it?"}]},{id:"F",title:"The Google Search",tag:"Pain-First",color:"#9B6B9B",lines:[{type:"say",text:"Hi, is this [Business Name]? My name is Ebuka, I'm a web developer."},{type:"say",text:"I was searching for shortlets in [Lekki/Ikeja/VI] on Google last week — your listing came up but there was no website. Just a number and a location."},{type:"ask",text:"When you think about your bookings right now — would you say most are repeat customers or new people finding you for the first time?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And for the new ones — how are they usually discovering you? Instagram? Referrals?"},{type:"pause",text:"Let them answer"},{type:"say",text:"The shortlet businesses doing really well in Lagos aren't just on Instagram. They have a website working for them 24 hours a day — someone lands on it at 2am, sees the apartments, sends a booking request before they speak to anyone."},{type:"ask",text:"Do you feel like you're currently capturing all the people searching online who would genuinely book if they could find you easily?"},{type:"pause",text:"Let them answer"},{type:"say",text:"That's exactly why I'm calling. I've already built a website for [Business Name] — fully designed, looks luxury, works on mobile."},{type:"close",text:"What's the best number to send the WhatsApp link to right now?"}]}];
+// OPENERS DATA
+const openers=[{id:"A",title:"The Curiosity Hook",tag:"Short & Sharp",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon]. Please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"Okay great. I'm a web developer based in Lagos — I've actually already built a website for your business. I just want to show it to you."},{type:"say",text:"If you like it, it's yours. If you don't, no problem, no charge, we never speak again."},{type:"close",text:"Can I send you the link right now?"}]},{id:"B",title:"The Direct Value Pitch",tag:"Warm & Confident",color:"#7B9E87",lines:[{type:"say",text:"Hi, I'm calling for [Business Name]. My name is Ebuka, I'm a web developer."},{type:"say",text:"I build websites for shortlet businesses in Lagos — I've done one recently and I want to show you what it looks like with your name on it."},{type:"say",text:"It takes 30 seconds to view."},{type:"close",text:"Can I send it to you on WhatsApp?"}]},{id:"C",title:"The Instagram Story",tag:"Personal Discovery",color:"#E07A5F",lines:[{type:"say",text:"Hi, is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"So I was actually looking for a shortlet in Lagos last week, came across your Instagram — really nice apartments by the way."},{type:"say",text:"But I kept looking for your website to check availability and pricing, couldn't find one."},{type:"say",text:"I'm a web developer, so I just went ahead and built one for you. Takes 30 seconds to look at."},{type:"close",text:"Can I send you the link on WhatsApp?"}]},{id:"D",title:"The Google Search",tag:"Problem Spotter",color:"#6B7FD7",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]?"},{type:"pause",text:"Wait for confirmation"},{type:"say",text:"I searched for shortlets in [Lekki/Ikeja/VI] on Google last week — your name came up but there was no website, just a Google listing."},{type:"say",text:"A lot of people searching for shortlets online are clicking past businesses with no site."},{type:"say",text:"I'm a web developer, I've already put something together for you. If you like it, we talk. If not, no stress at all."},{type:"close",text:"Can I send it to you now?"}]},{id:"E",title:"Instagram Discovery",tag:"Consultative",color:"#C9A84C",lines:[{type:"say",text:"Hi, good [morning/afternoon], please is this [Business Name]? My name is Ebuka, I'm a web developer based in Lagos."},{type:"say",text:"I came across your Instagram page — honestly your apartments look really premium. Really clean work."},{type:"say",text:"But I was trying to find more info — pricing, availability, how to book — and I couldn't find a website."},{type:"ask",text:"When people reach out to you, how are they usually finding you right now?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And when someone wants to check availability or pricing, what happens — do they DM you, call you directly?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"Imagine if instead of handling every inquiry manually, you had a website showing all your apartments, pricing, availability — and people could send a booking request directly. How much time would that save you in a week?"},{type:"pause",text:"Let them answer"},{type:"say",text:"Exactly. And here's the thing — I've already built something for you. Full website, designed to look as premium as your apartments. No commitment, no pressure."},{type:"close",text:"Can I send you the link on WhatsApp right now so you can see it?"}]},{id:"F",title:"The Google Search",tag:"Pain-First",color:"#9B6B9B",lines:[{type:"say",text:"Hi, is this [Business Name]? My name is Ebuka, I'm a web developer."},{type:"say",text:"I was searching for shortlets in [Lekki/Ikeja/VI] on Google last week — your listing came up but there was no website. Just a number and a location."},{type:"ask",text:"When you think about your bookings right now — would you say most are repeat customers or new people finding you for the first time?"},{type:"pause",text:"Let them answer"},{type:"ask",text:"And for the new ones — how are they usually discovering you? Instagram? Referrals?"},{type:"pause",text:"Let them answer"},{type:"say",text:"The shortlet businesses doing really well in Lagos aren't just on Instagram. They have a website working 24 hours a day — someone lands on it at 2am, sees the apartments, sends a booking request before they speak to anyone."},{type:"ask",text:"Do you feel like you're currently capturing all the people searching online who would genuinely book if they could find you easily?"},{type:"pause",text:"Let them answer"},{type:"say",text:"That's exactly why I'm calling. I've already built a website for [Business Name] — fully designed, looks luxury, works on mobile."},{type:"close",text:"What's the best number to send the WhatsApp link to right now?"}]}];
+
+const typeStyle={say:{bg:"rgba(255,255,255,0.06)",border:"transparent",label:null},ask:{bg:"rgba(201,168,76,0.12)",border:"#C9A84C",label:"ASK"},pause:{bg:"rgba(255,255,255,0.03)",border:"rgba(255,255,255,0.15)",label:"PAUSE"},close:{bg:"rgba(124,252,100,0.08)",border:"#7CFC64",label:"CLOSE"}};
+
 let openId=null;
-function render(){
-  const grid=document.getElementById("grid");
+function renderOpeners(){
+  const grid=document.getElementById("openers-grid");
   grid.innerHTML="";
-  scripts.forEach(s=>{
+  openers.forEach(s=>{
     const isOpen=openId===s.id;
     const card=document.createElement("div");
     card.className="card"+(isOpen?" open":"");
     card.style.borderColor=isOpen?s.color:"rgba(255,255,255,0.07)";
     const linesHTML=s.lines.map(l=>{
-      const lbl=l.type!=="say"?`<span class="line-label">${l.type.toUpperCase()}</span>`:"";
-      return`<div class="line ${l.type}">${lbl}<p class="line-text">${l.text}</p></div>`;
+      const ts=typeStyle[l.type];
+      const lbl=ts.label?`<span class="line-label" style="color:${ts.border}">${ts.label}</span>`:"";
+      return`<div class="line ${l.type}" style="background:${ts.bg};border-color:${ts.border}">${lbl}<p class="line-text" style="${l.type==='pause'?'color:rgba(255,255,255,0.3);font-style:italic':l.type==='close'?'color:#7CFC64':''}">${l.text}</p></div>`;
     }).join("");
-    card.innerHTML=`
-      <div class="card-top">
-        <div>
-          <span class="card-badge" style="background:${s.color}">OPTION ${s.id}</span>
-          <p class="card-title">${s.title}</p>
-          <p class="card-tag">${s.tag}</p>
-        </div>
-        <span class="card-toggle" style="color:${isOpen?s.color:"rgba(255,255,255,0.2)"}">+</span>
-      </div>
-      <div class="lines">${linesHTML}<button class="collapse-btn">COLLAPSE ↑</button></div>`;
+    card.innerHTML=`<div class="card-top"><div><span class="badge" style="background:${s.color}">OPTION ${s.id}</span><p class="card-title">${s.title}</p><p class="card-tag">${s.tag}</p></div><span class="toggle" style="color:${isOpen?s.color:'rgba(255,255,255,0.2)'}">+</span></div><div class="lines">${linesHTML}<button class="collapse-btn">COLLAPSE ↑</button></div>`;
     card.addEventListener("click",e=>{
       openId=e.target.classList.contains("collapse-btn")?null:(isOpen?null:s.id);
-      render();
+      renderOpeners();
     });
     grid.appendChild(card);
   });
 }
-render();
-</script>
-<script>
+
+function switchTab(name){
+  document.querySelectorAll(".tab").forEach((t,i)=>{
+    const names=["openers","flow","gatekeeper","objections","followup"];
+    t.classList.toggle("active",names[i]===name);
+  });
+  document.querySelectorAll(".section").forEach(s=>{
+    s.classList.toggle("active",s.id===name);
+  });
+}
+
+renderOpeners();
+
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/sw.js');
 }
 </script>
+
 </body>
 </html>
